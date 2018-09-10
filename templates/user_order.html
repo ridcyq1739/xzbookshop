@@ -1,0 +1,93 @@
+{% extends 'base_foot.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="{% url 'users:info' %}">· 个人信息</a></li>
+				<li><a href="{% url 'users:order' %}" class="active">· 全部订单</a></li>
+				<li><a href="{% url 'users:site' %}">· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<h3 class="common_title2">全部订单</h3>
+				<ul class="order_list_th w978 clearfix">
+					<li class="col01">2016-8-21 17:36:24</li>
+					<li class="col02 stress">未支付</li>
+                    <li class="col03" >数量</li>
+                    <li class="col04">单价</li>
+                    <li class="col05">总价</li>
+                    <li class="col06">状态</li>
+				</ul>
+
+				<table class="order_list_table w980">
+					<tbody>
+                    {% for i in no_order_list %}
+						<tr>
+							<td width="55%">
+
+								<ul class="order_goods_list clearfix">
+									<li class="col01"><img src="{{ MEDIA_URL }}{{ i.book.image }}"></li>
+									<li class="col02">{{ i.book.title }}</li>
+									<li class="col03">{{ i.count }}</li>
+									<li class="col04">{{ i.book.price }}元</li>
+								</ul>
+
+							</td>
+							<td width="15%">{{ i.get_total }}元</td>
+							<td width="15%">待付款</td>
+							<td width="15%"><a href="{% url 'order:list' %}" class="oper_btn">去付款</a></td>
+						</tr>
+                    {% endfor %}
+					</tbody>
+				</table>
+
+				<ul class="order_list_th w978 clearfix">
+					<li class="col01">2016-8-21 17:36:24</li>
+					<li class="col02 stress">已支付</li>
+                    <li class="col10"></li>
+                    <li class="col11">数量</li>
+                    <li class="col12">总价</li>
+				</ul>
+				<table class="order_list_table w980">
+					<tbody>
+						<tr>
+							<td width="55%">
+                                {% for i in yes_order_list.object_list %}
+								<ul class="order_goods_list clearfix">
+									<li class="col01"><img src="{{ MEDIA_URL }}{{ i.book.image }}"></li>
+									<li class="col02">{{ i.book.title }}</li>
+									<li class="col03">{{ i.count }}</li>
+									<li class="col04">{{ i.get_total }}元</li>
+								</ul>
+                                {% endfor %}
+							</td>
+							<td width="30%">已付款</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="pagenation">
+					{% if yes_order_list.has_previous %}
+                     <a href="?{{ yes_order_list.previous_page_number.querystring }}" >上一页</a>
+                    {% endif %}
+                    {% for page in yes_order_list.pages %}
+                        {% if page %}
+                            {% ifequal page yes_order_list.number %}
+                                <a href="?{{ page.querystring }}">{{ page }}</a>
+                            {% else %}
+                                <a href="?{{ page.querystring }}">{{ page }}</a>
+                            {% endifequal %}
+                        {% else %}
+                            <a href="">...</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if yes_order_list.has_next %}
+                        <a href="?{{ yes_order_list.next_page_number.querystring }}">下一页</a>
+                    {% endif %}
+				</div>
+		</div>
+	</div>
+{% endblock %}
+

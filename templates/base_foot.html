@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>行致书屋-{% block title_1 %}用户中心{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+	<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到行致书屋!</div>
+			<div class="fr">
+				<div class="user_link fl">
+					<a href="{% url 'users:info' %}">用户中心</a>
+					<span>|</span>
+					<a href="{% url 'cart:cart_list' %}">我的购物车</a>
+					<span>|</span>
+					<a href="{% url 'order:order' %}">我的订单</a>
+                    <span>|</span>
+				</div>
+                {% if request.user.is_authenticated %}
+				<div class="login_btn fl">
+					欢迎您：<em>{{ request.user.nick_name }}</em>
+					<span>|</span>
+					<a href="{% url 'users:logout' %}">退出</a>
+				</div>
+				{%else%}
+				<div class="login_btn fl">
+					<a href="{% url 'users:login' %}">登录</a>
+					<span>|</span>
+					<a href="{% url 'users:register' %}">注册</a>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div class="search_bar clearfix">
+		<a href="{% url 'index' %}" class="logo fl"><img class="logo_img" src="{% static 'images/logo.jpg' %}"></a>
+		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;{% block title_2 %}用户中心{% endblock %}</div>
+		<div class="search_con fr">
+			<form method="get" action="{% url 'books:list' %}">
+			<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+			<input type="submit" class="input_btn fr" name="" value="搜索">
+            </form>
+		</div>		
+	</div>
+
+{% block content %}
+
+{% endblock %}
+
+
+
+	<div class="footer">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>		
+		</div>
+		<p>CopyRight © 2016 行致书屋</p>
+		<p>电话：010-****888</p>
+	</div>
+	{% block js %}{% endblock %}
+</body>
+</html>

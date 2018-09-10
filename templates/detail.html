@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}详情{% endblock %}
+{% block content %}
+    <div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					{% for category in all_categorys %}
+                        <li><a href="{% url 'books:c_list' category.id %}">{{ category.tag }}</a></li>
+                    {% endfor %}
+				</ul>
+			</div>
+			<ul class="navlist fl">
+                <li><a href="{% url 'index' %}">首页</a></li>
+                <li class="interval">|</li>
+                <li><a href="{% url 'books:list' %}">全部书籍</a></li>
+                <li class="interval">|</li>
+                <li><a href="">书评</a></li>
+            </ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="{% url 'books:list' %}">全部分类</a>
+		<span>></span>
+		<a href="{% url 'books:c_list' cg.id %}">{{ cg.tag }}</a>
+		<span>></span>
+		<a href="{% url 'books:r_list' %}">商品详情</a>
+	</div>
+
+	<div class="goods_detail_con clearfix">
+		<div class="goods_detail_pic fl"><img src="{{ MEDIA_URL }}{{ book.image }}"></div>
+
+		<div class="goods_detail_list fr">
+			<h3>{{ book.title }}</h3>
+			<p>{{ book.desc }}</p>
+			<div class="prize_bar">
+				<span class="show_pirze">¥<em id="b_price">{{ book.price }}</em></span>
+			</div>
+            <form method="post" action="" id="jsStayForm">
+			<div class="goods_num clearfix">
+                <div>作者：{{ book.author }}</div>
+				<div class="num_name fl">数 量：</div>
+				<div class="num_add fl">
+					<input type="text" class="num_show fl" name='count' value="1">
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+					<a href="javascript:add();" class="add fr">+</a>
+					<a href="javascript:minus();" class="minus fr">-</a>
+				</div>
+			</div>
+			<div class="total">总价：<em id="b_total">{{ book.price }}元</em></div>
+			<div class="operate_btn">
+                <input type="submit" class="buy_btn" id="button1" value="立即购买">
+				<input type="button" class="add_cart" id="jsStayBtn" value="加入购物车">
+			</div>
+                {% csrf_token %}
+            </form>
+		</div>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+					{% for book in new_books %}
+					<li>
+						<a href=""><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+						<h4><a href="">{{ book.title }}</a></h4>
+						<div class="prize">￥{{ book.price }}</div>
+					</li>
+                {% endfor %}
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<ul class="detail_tab clearfix">
+                <li class="active"><a class="pinlun" href="#">商品介绍</a></li>
+				<li class=""><a class="pinlun" href="{% url 'books:comment' book.id %}">评论</a></li>
+			</ul>
+
+			<div class="tab_content">
+				<dl>
+					<dt>商品详情：</dt>
+					<dd>{{ book.content|safe }}</dd>
+				</dl>
+			</div>
+
+		</div>
+	</div>
+{% endblock %}
+{% block js %}
+
+<script>
+function add() {
+    num=parseFloat($('.num_show').val());
+    $('.num_show').val(num+1);
+    $('.num_show').blur();
+}
+
+function minus() {
+    num=parseFloat($('.num_show').val());
+    if(num<=1){
+        return;
+    }
+    $('.num_show').val(num-1);
+    $('.num_show').blur();
+}
+$(function () {
+    $('.num_show').blur(function () {
+        num = parseInt($('.num_show').val());
+        if (num <= 1) {
+            num = 1;
+        }
+        price = parseFloat($('#b_price').text());
+        total = num * price;
+        $('.num_show').val(num);
+        $('#b_total').text(total.toFixed(2) + '元');
+    });
+})
+</script>
+<script>
+$(function(){
+    $('#jsStayBtn').on('click', function(){
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "{% url "cart:add_cart" %}",
+            data: $('#jsStayForm').serialize(),
+            dataType: "json",
+            async: true,
+            success: function(data) {
+                var data = JSON.parse(data);
+                if(data.status == 'success'){
+                    $('#jsStayForm')[0].reset();
+                    alert("加入购物车成功")
+                }else if(data.status == 'fail'){
+                    $('#jsCompanyTips').html(data.error_msg)
+                    alert("加入购物车失败,请登录");
+                }else {
+                    alert("加入购物车失败");
+                }
+            },
+        });
+    });
+})
+
+</script>
+<script>
+$(document).ready(function() {
+    $("#button1").click(function () {
+
+        $("#jsStayForm").attr("action", "{% url 'cart:to_buy' %}");
+        $("form").submit();
+    });
+})
+</script>
+{% endblock %}

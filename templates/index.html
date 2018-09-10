@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="navbar_con">
+    <div class="navbar">
+        <h1 class="fl">全部商品分类</h1>
+        <ul class="navlist fl">
+            <li><a href="{% url 'index' %}">首页</a></li>
+            <li class="interval">|</li>
+            <li><a href="{% url 'books:list' %}">全部书籍</a></li>
+            <li class="interval">|</li>
+            <li><a href="{% url 'books:r_list' %}">书评</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="center_con clearfix">
+    <ul class="subnav fl">
+        <li><a href="#model01">小说</a></li>
+        <li><a href="#model02">文学</a></li>
+        <li><a href="#model03">传记</a></li>
+        <li><a href="#model04">历史</a></li>
+        <li><a href="#model05">少儿</a></li>
+        <li><a href="#model06">科幻</a></li>
+    </ul>
+    <div class="slide fl">
+        <ul class="slide_pics">
+            {% for banner in banners %}
+            <li><img src="{{ MEDIA_URL }}{{ banner.banner }}" alt="幻灯片"></li>
+            {% endfor %}
+        </ul>
+        <div class="prev"></div>
+        <div class="next"></div>
+        <ul class="points"></ul>
+    </div>
+    <div class="adv fl">
+        <a href="#"><img class="sliimg1" src="{% static 'images/sli01.jpg' %}"></a>
+        <a href="#"><img class="sliimg2" src="{% static 'images/sli02.jpg' %}"></a>
+    </div>
+</div>
+
+<div class="list_model">
+    <div class="list_title clearfix">
+        <h3 class="fl" id="model01">小说</h3>
+        <div class="subtitle fl">
+            <span>|</span>
+            {% for book in xs %}
+            <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'books:c_list' 1 %}" class="goods_more fr">查看更多 ></a>
+    </div>
+
+    <div class="goods_con clearfix">
+        <div class="goods_banner fl"><img src="{% static 'images/banner1.jpg' %}"></div>
+        <ul class="goods_list fl">
+            {% for book in xs %}
+            <li>
+                <h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+                <a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+                <div class="prize">¥ {{ book.price }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="list_model">
+    <div class="list_title clearfix">
+        <h3 class="fl" id="model02">文学</h3>
+        <div class="subtitle fl">
+            <span>|</span>
+            {% for book in wx %}
+            <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'books:c_list' 2 %}" class="goods_more fr">查看更多 ></a>
+    </div>
+
+    <div class="goods_con clearfix">
+        <div class="goods_banner fl"><img src="{% static 'images/banner2.jpg' %}"></div>
+        <ul class="goods_list fl">
+            {% for book in wx %}
+            <li>
+                <h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+                <a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+                <div class="prize">¥ {{ book.price }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="list_model">
+    <div class="list_title clearfix">
+        <h3 class="fl" id="model03">传记</h3>
+        <div class="subtitle fl">
+            <span>|</span>
+            {% for book in zj %}
+            <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'books:c_list' 3 %}" class="goods_more fr">查看更多 ></a>
+    </div>
+
+    <div class="goods_con clearfix">
+        <div class="goods_banner fl"><img src="{% static 'images/banner3.jpg' %}"></div>
+        <ul class="goods_list fl">
+            {% for book in zj %}
+            <li>
+                <h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+                <a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+                <div class="prize">¥ {{ book.price }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="list_model">
+    <div class="list_title clearfix">
+        <h3 class="fl" id="model04">历史</h3>
+        <div class="subtitle fl">
+            <span>|</span>
+            {% for book in ls %}
+            <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'books:c_list' 4 %}" class="goods_more fr">查看更多 ></a>
+    </div>
+
+    <div class="goods_con clearfix">
+        <div class="goods_banner fl"><img src="{% static 'images/banner4.jpg' %}"></div>
+        <ul class="goods_list fl">
+            {% for book in ls %}
+            <li>
+                <h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+                <a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+                <div class="prize">¥ {{ book.price }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="list_model">
+    <div class="list_title clearfix">
+        <h3 class="fl" id="model05">少儿</h3>
+        <div class="subtitle fl">
+            <span>|</span>
+            {% for book in sr %}
+            <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'books:c_list' 5 %}" class="goods_more fr">查看更多 ></a>
+    </div>
+
+    <div class="goods_con clearfix">
+        <div class="goods_banner fl"><img src="{% static 'images/banner5.jpg' %}"></div>
+        <ul class="goods_list fl">
+            {% for book in sr %}
+            <li>
+                <h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+                <a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+                <div class="prize">¥ {{ book.price }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="list_model">
+    <div class="list_title clearfix">
+        <h3 class="fl" id="model06">科幻</h3>
+        <div class="subtitle fl">
+            <span>|</span>
+            {% for book in kh %}
+            <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+            {% endfor %}
+
+        </div>
+        <a href="{% url 'books:c_list' 6 %}" class="goods_more fr">查看更多 ></a>
+    </div>
+
+    <div class="goods_con clearfix">
+        <div class="goods_banner fl"><img src="{% static 'images/banner6.jpg' %}"></div>
+        <ul class="goods_list fl">
+            {% for book in kh %}
+            <li>
+                <h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+                <a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+                <div class="prize">¥ {{ book.price }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+

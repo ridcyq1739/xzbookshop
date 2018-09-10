@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="navbar_con">
+    <div class="navbar clearfix">
+        <div class="subnav_con fl">
+            <h1>全部商品分类</h1>
+            <span></span>
+            <ul class="subnav">
+                {% for category in all_categorys %}
+                    <li><a href="{% url 'books:c_list' category.id %}">{{ category.tag }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <ul class="navlist fl">
+            <li><a href="{% url 'index' %}">首页</a></li>
+            <li class="interval">|</li>
+            <li><a href="{% url 'books:list' %}">全部书籍</a></li>
+            <li class="interval">|</li>
+            <li><a href="">书评</a></li>
+        </ul>
+    </div>
+</div>
+<div class="breadcrumb">
+<a href="{% url 'books:r_list' %}">全部书评</a>
+<span>></span>
+<a href="#">详情</a>
+</div>
+<div class="main_wrap clearfix">
+    <div class="l_wrap fl clearfix">
+        <div class="new_goods">
+            <h3>新品推荐</h3>
+            <ul>
+                {% for book in new_books %}
+					<li>
+						<a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+						<h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+						<div class="prize">￥{{ book.price }}</div>
+					</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="r_wrap fr clearfix">
+        <h1 class="entry-title">{{ review.title }}</h1>
+        <div class="entry-meta">
+            <span class="post-date"><time class="entry-date"
+                                                      datetime="{{ review.add_time }}">{{ review.add_time }}&nbsp</time></span>
+            <span class="post-author">{{ review.author }}&nbsp</span>
+            <span class="post-click">{{ review.click_num }} 点击数</span>
+        </div>
+        <div class="entry-content clearfix">
+            {% autoescape off %}
+            {{ review.content|safe }}
+            {% endautoescape %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

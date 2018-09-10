@@ -1,0 +1,67 @@
+{% extends 'base_foot.html' %}
+{% block title_1 %}提交订单{% endblock %}
+{% block title_2 %}提交订单{% endblock %}
+{% block content %}
+    <h3 class="common_title">确认收货地址</h3>
+
+	<div class="common_list_con clearfix">
+		<dl>
+			<dt>寄送到：</dt>
+			<dd><input type="radio" name="" checked="">{{ request.user.s_address }} （{{ request.user.s_name }} 收） {{ request.user.s_phone }}</dd>
+		</dl>
+		<a href="{% url 'users:site' %}" class="edit_site">编辑收货地址</a>
+
+	</div>
+
+	<h3 class="common_title">支付方式</h3>
+	<div class="common_list_con clearfix">
+		<div class="pay_style_con clearfix">
+			<input type="radio" name="pay_style" checked>
+			<label class="zhifubao"></label>
+        </div>
+	</div>
+
+	<h3 class="common_title">商品列表</h3>
+
+	<div class="common_list_con clearfix">
+		<ul class="goods_list_th clearfix">
+			<li class="col01">名称</li>
+			<li class="col02">作者</li>
+			<li class="col03">价格</li>
+			<li class="col04">数量</li>
+			<li class="col05">小计</li>
+		</ul>
+        {% for i in order_list %}
+            <form method="post" action="">
+            <input type="hidden" name="order_id" value="{{ i.id }}">
+		<ul class="goods_list_td clearfix">
+            <li class="col01"><input type="submit" value="删除" class="del_button_2"></li>
+			<li class="col02"><img src="{{ MEDIA_URL }}{{ i.book.image }}"></li>
+			<li class="col03">{{ i.book.title }}</li>
+			<li class="col04">{{ i.book.author }}</li>
+			<li class="col05">{{ i.book.price }}元</li>
+			<li class="col06">{{ i.count }}</li>
+			<li class="col07">{{ i.get_total }}元</li>
+		</ul>
+            {% csrf_token %}
+            </form>
+        {% endfor %}
+	</div>
+
+	<h3 class="common_title">总金额结算</h3>
+
+	<div class="common_list_con clearfix">
+		<div class="settle_con">
+			<div class="total_goods_count">共<em>{{ request.user.get_order_num }}</em>件商品，总金额<b>{{ request.user.get_total_order }}元</b></div>
+			<div class="transit">运费：<b>10元</b></div>
+			<div class="total_pay">实付款：<b>{{ request.user.get_total_all }}元</b></div>
+		</div>
+	</div>
+    <form action="{% url 'page1' %}" method="post">
+	<div class="order_submit clearfix">
+        <input type="hidden" name="money" value="{{ request.user.get_total_order }}">
+		<input type="submit" value="提交订单" id="order_btn" class="order_btn">
+        {% csrf_token %}
+	</div>
+    </form>
+{% endblock %}

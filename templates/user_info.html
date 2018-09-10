@@ -1,0 +1,50 @@
+{% extends 'base_foot.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="{% url 'users:info' %}" class="active">· 个人信息</a></li>
+				<li><a href="{% url 'users:order' %}">· 全部订单</a></li>
+				<li><a href="{% url 'users:site' %}">· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<div class="info_con clearfix">
+				<h3 class="common_title2">基本信息</h3>
+						<ul class="user_info_list">
+							<li><span>昵称：</span>{{ request.user.nick_name }}</li>
+							<li><span>手机：</span>{{ request.user.phone }}</li>
+							<li><span>地址：</span>{{ request.user.address }}</li>
+						</ul>
+				</div>
+				<h3 class="common_title2">编辑个人信息</h3>
+				<div class="site_con">
+					<form method="post" action="{% url 'users:info' %}">
+						<div class="form_group">
+							<label>昵称：</label>
+							{{ form.nick_name }}
+						</div>
+						<div class="form_group">
+							<label>手机：</label>
+							{{ form.phone }}
+                            {% if form.errors %}
+                            <i>{{ msg }}</i>
+                            {% endif %}
+						</div>
+						<div class="form_group">
+							<label>地址：</label>
+							{{ form.address }}
+						</div>
+
+						<input type="submit" name="" value="提交" class="info_submit">
+                        {% csrf_token %}
+					</form>
+				</div>
+
+		</div>
+	</div>
+{% endblock %}
+
+

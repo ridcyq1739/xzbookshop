@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>行致书屋-注册</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+</head>
+<body>
+	<div class="register_con">
+		<div class="l_con fl">
+			<a class="reg_logo" href="{% url 'index' %}"><img class="logo_login" src="{% static 'images/logo.jpg' %}"></a>
+			
+			<div class="reg_banner"></div>
+		</div>
+
+		<div class="r_con fr">
+			<div class="reg_title clearfix">
+				<h1>用户注册</h1>
+				<a href="{% url 'users:login' %}">登录</a>
+			</div>
+			<div class="reg_form clearfix">
+				<form method="post" action="{% url 'users:register' %}">
+				<ul>
+					<li>
+						<label>手机:</label>
+						<input type="text" name="phone" id="phone"/>
+						{% if phone_msg %}
+						<span class="error_tip">{{ phone_msg }}</span>
+                        {% else %}
+                        <span class="error_tip"></span>
+                        {% endif %}
+					</li>					
+					<li>
+						<label>密码:</label>
+						<input type="password" name="password1" id="password1"/>
+
+					</li>
+					<li>
+						<label>确认密码:</label>
+						<input type="password" name="password2" id="password2"/>
+                        {% if pwd_msg %}
+						<span class="error_tip">{{ pwd_msg }}</span>
+                        {% else %}
+                        <span class="error_tip"></span>
+                        {% endif %}
+					</li>
+					<li>
+						<label>邮箱:</label>
+						<input type="text" name="email" id="email"/>
+
+					</li>
+					<li class="reg_sub">
+						<input type="submit" value="注 册" name="">
+					</li>
+				</ul>
+                    {% csrf_token %}
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="footer no-mp">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>		
+		</div>
+		<p>CopyRight © 2018 行致书屋</p>
+		<p>电话：010-****888</p>
+	</div>
+	
+</body>
+</html>
