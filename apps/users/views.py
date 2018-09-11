@@ -112,16 +112,19 @@ class UserInfoView(LoginRequiredMixin,View):
             books = Books.objects.filter(Q(title__icontains=q) | Q(author__icontains=q))
         if form.is_valid():
             user = UserProfile.objects.get(id=request.user.id)
-            nick_name = request.POST.get("nick_name","")
-            phone = request.POST.get("phone",'')
-            address = request.POST.get("address", "")
+            nick_name = request.POST.get("nick_name")
+            phone = request.POST.get("phone")
+            address = request.POST.get("address")
             if UserProfile.objects.filter(phone=phone):
                 return render(request,'user_info.html',{'form':form,'msg':'手机号已存在'})
-            user.nick_name = nick_name
-            if phone != "":
-                user.username, user.phone = phone,phone
-            user.address = address
-            user.save()
+            else:
+                user.nick_name = nick_name
+                user.address = address
+                if phone != '':
+                    user.username, user.phone = phone,phone
+                    user.save()
+                else:
+                    user.save()
             return HttpResponseRedirect('/users/info/')
         return render(request,'user_info.html',{'form':form,'books':books})
 
