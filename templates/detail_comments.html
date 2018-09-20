@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load book_tags %}
 {% block title %}评论{% endblock %}
 {% block content %}
     <div class="navbar_con">
@@ -65,15 +66,18 @@
 		<div class="l_wrap fl clearfix">
 			<div class="new_goods">
 				<h3>新品推荐</h3>
-				<ul>
-					{% for book in new_books %}
-					<li>
-						<a href=""><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
-						<h4><a href="">{{ book.title }}</a></h4>
-						<div class="prize">￥{{ book.price }}</div>
-					</li>
-                {% endfor %}
-				</ul>
+                {% get_new_books as new_books %}
+                <ul>
+                    {% for book in new_books %}
+                        <li>
+                            <a href="{% url 'books:detail' book.id %}"><img src="{{ MEDIA_URL }}{{ book.image }}"></a>
+                            <h4><a href="{% url 'books:detail' book.id %}">{{ book.title }}</a></h4>
+                            <div class="prize">￥{{ book.price }}</div>
+                        </li>
+                        {% empty %}
+                        暂无书籍
+                    {% endfor %}
+                </ul>
 			</div>
 		</div>
 

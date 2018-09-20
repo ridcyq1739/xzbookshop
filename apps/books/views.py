@@ -42,7 +42,6 @@ class ListView(View):
     """
     def get(self,request):
         books = Books.objects.all()
-        new_books = Books.objects.all().order_by("add_time")[:2]
         all_categorys = Category.objects.all()
 
         q = request.GET.get("q", "")
@@ -69,7 +68,6 @@ class ListView(View):
         context = {
             'books':books,
             'sort':sort,
-            'new_books':new_books,
             'all_categorys':all_categorys
         }
 
@@ -83,7 +81,6 @@ class ClassifyListView(View):
         all_categorys = Category.objects.all()
         cg = Category.objects.get(id=category_id)
         books = Books.objects.filter(category_id=category_id)
-        new_books = Books.objects.all().order_by("add_time")[:3]
         is_c = True
 
         q = request.GET.get("q", "")
@@ -112,7 +109,6 @@ class ClassifyListView(View):
             'cg': cg,
             'books': books,
             'is_c': is_c,
-            'new_books':new_books,
             'sort':sort,
         }
 
@@ -133,13 +129,11 @@ class DetailView(View):
             books = Books.objects.filter(Q(title__icontains=q) | Q(author__icontains=q))
 
         cg = Category.objects.get(id=book.category_id)
-        new_books = Books.objects.all().order_by("add_time")[:3]
         all_categorys = Category.objects.all()
 
         context = {
             'book':book,
             'cg':cg,
-            'new_books':new_books,
             'all_categorys':all_categorys,
         }
 
@@ -153,7 +147,6 @@ class ReviewListView(View):
     def get(self,request):
         reviews = Review.objects.all()
         all_categorys = Category.objects.all()
-        new_books = Books.objects.all().order_by("add_time")[:3]
 
         sort = request.GET.get('sort', "")
         if sort:
@@ -173,7 +166,6 @@ class ReviewListView(View):
         return render(request,'review.html',{
             'reviews':reviews,
             'all_categorys':all_categorys,
-            'new_books':new_books,
             'sort':sort,
         })
 
@@ -203,14 +195,12 @@ class CommentView(View):
             books = Books.objects.filter(Q(title__icontains=q) | Q(author__icontains=q))
 
         cg = Category.objects.get(id=book.category_id)
-        new_books = Books.objects.all().order_by("add_time")[:3]
         all_categorys = Category.objects.all()
         comment_list = book.comment_set.all()
 
         context = {
             'book': book,
             'cg': cg,
-            'new_books': new_books,
             'all_categorys': all_categorys,
             'comment_list': comment_list
         }
@@ -235,14 +225,12 @@ class CommentView(View):
             books = Books.objects.filter(Q(title__icontains=q) | Q(author__icontains=q))
 
         cg = Category.objects.get(id=book.category_id)
-        new_books = Books.objects.all().order_by("add_time")[:3]
         all_categorys = Category.objects.all()
         comment_list = book.comment_set.all()
 
         context = {
             'book': book,
             'cg': cg,
-            'new_books': new_books,
             'all_categorys': all_categorys,
             'comment_list': comment_list
         }

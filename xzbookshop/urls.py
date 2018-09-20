@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path,re_path,include
 from xzbookshop.settings import MEDIA_ROOT,STATIC_ROOT
 from django.views.static import serve
+from django.views.generic.base import RedirectView
 import xadmin
 from books.views import IndexView
 from order.views import page1, page2
+
 
 
 urlpatterns = [
@@ -53,6 +55,9 @@ urlpatterns = [
     #支付
     re_path(r'^page1/', page1, name='page1'),
     re_path(r'^page2/', page2 , name='page2'),
+
+    #图标
+    re_path(r'^favicon.ico$',RedirectView.as_view(url=r'static/favicon.ico')),  
 ]
 
 #handler404 = "users.views.page_not_found"
