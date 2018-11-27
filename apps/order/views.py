@@ -69,7 +69,7 @@ class OrderListView(View):
 
 def get_ali_object():
     # 沙箱环境地址：https://openhome.alipay.com/platform/appDaily.htm?tab=info
-    app_id = "2016091700528904"  #  APPID （沙箱应用）
+    app_id = ""  #  APPID （沙箱应用）
 
     # 支付完成后，支付偷偷向这里地址发送一个post请求，识别公网IP,如果是 192.168.20.13局域网IP ,支付宝找不到，def page2() 接收不到这个请求
     # notify_url = "http://47.94.172.250:8804/page2/"
