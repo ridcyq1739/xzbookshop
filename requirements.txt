@@ -23,7 +23,7 @@ Pillow==5.2.0
 pycryptodome==3.6.6
 python-alipay-sdk==1.8.0
 pytz==2018.5
-PyYAML==3.13
+PyYAML==5.4
 requests==2.19.1
 shellescape==3.4.1
 six==1.11.0
