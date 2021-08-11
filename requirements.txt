@@ -29,12 +29,7 @@ shellescape==3.4.1
 3123==1.11.0
 tablib==0.12.1
 unicodecsv==0.14.1
-<<<<<<< HEAD
 urllib3==1.23
 xlrd==1.1.0
 东半球
 xlwt123123==1.3.5
-=======
-123xlrd==1.1.0
-xlwt==1.3.5
->>>>>>> a
